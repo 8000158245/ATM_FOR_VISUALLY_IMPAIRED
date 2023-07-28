@@ -1,0 +1,64 @@
+<!-- HTML code for the speech input and output form -->
+<form>
+    <label for="speech-input">Speak:</label>
+    <input type="text" id="speech-input">
+    <button id="submit-btn">Submit</button>
+    <br>
+    <label for="output">Output:</label>
+    <div id="output"></div>
+    <button id="speak-btn">Speak Output</button>
+  </form>
+
+  
+  
+  <!-- JavaScript code for speech recognition and text-to-speech -->
+  <script>
+    const speechInput = document.getElementById('speech-input');
+    const output = document.getElementById('output');
+  
+    // Create a new SpeechRecognition object
+    const recognition = new webkitSpeechRecognition();
+  
+    // Set the recognition language to English
+    recognition.lang = 'en-US';
+
+    // Speak a prompt to the user before starting recognition
+    speakOutput('Welcome Bank Customer Please speak the amount you want to withdraw from your account');
+  
+    // Start recognition when the user clicks the Submit button
+    document.getElementById('submit-btn').addEventListener('click', (event) => {
+      event.preventDefault();
+      recognition.start();
+    });
+  
+    // Update the input field and output element when recognition results are returned
+    recognition.onresult = (event) => {
+      const result = event.results[0][0].transcript;
+      speechInput.value = result;
+      output.textContent = result;
+  
+      // Automatically speak the output text
+      speakOutput('Thank you for banking with us. We are processing your transaction for amount');
+      speakOutput(result);
+    };
+  
+    // Speak the output when the Speak button is clicked
+    document.getElementById('speak-btn').addEventListener('click', () => {
+      speakOutput(output.textContent);
+    });
+  
+    // Function to speak the output
+    function speakOutput(text) {
+      const speech = new SpeechSynthesisUtterance();
+      speech.lang = 'en-US';
+      speech.text = text;
+      speechSynthesis.speak(speech);
+    }
+
+    setTimeout(function() {
+  // Code to execute after 3 seconds
+    recognition.start();
+}, 5000);
+    
+  </script>
+  
