@@ -1,0 +1,1 @@
+model = load_model(p.MODEL_FILE)
